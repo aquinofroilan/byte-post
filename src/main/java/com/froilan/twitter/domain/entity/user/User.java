@@ -3,11 +3,13 @@ package com.froilan.twitter.domain.entity.user;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Date;
@@ -35,6 +37,21 @@ public class User implements UserDetails {
     @Field("birth_date")
     private Date birthDate;
 
+    @Field("followers")
+    @DBRef(lazy = true)
+    private List<User> followers;
+
+    @Field("following")
+    @DBRef(lazy = true)
+    private List<User> following;
+
+    @Field("blocked_users")
+    @DBRef(lazy = true)
+    private List<User> blockedUsers;
+
+    @Field("last_active")
+    private Instant lastActive;
+
     @Field("profile")
     private Profile profile;
 
@@ -50,17 +67,24 @@ public class User implements UserDetails {
     @Field("updated_at")
     private LocalDateTime updatedAt;
 
+    public List<User> getFollowing() {
+        return following;
+    }
+
+    public List<User> getFollowers() {
+        return followers;
+    }
+
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of();
     }
 
-    @Override
     public String getPassword() {
         return password;
     }
 
-    @Override
     public String getUsername() {
         return userName;
     }

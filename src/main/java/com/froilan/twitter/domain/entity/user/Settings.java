@@ -6,6 +6,14 @@ public class Settings {
     @Field("private_account")
     private boolean privateAccount;
 
+    @Field("preference")
+    private Preference preference;
+
+    public Preference getPreference() {
+        return preference;
+    }
+
+
     public boolean isPrivateAccount() {
         return privateAccount;
     }
